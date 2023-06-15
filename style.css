@@ -57,3 +57,11 @@
 .validation-text span {
     margin: 3px 0;
 }
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

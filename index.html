@@ -29,11 +29,13 @@
                 <p class="text-center  mb-3">Enter a new password below to change your password.</p>
                 <form action="" @submit.prevent="changePassword">
                     <div class="input-gp mb-3">
-                        <input required="" type="password" name="password" class="password-input" v-model="password" @input="validatePassword">
+                        <input required="" type="password" name="password" class="password-input" v-model="password" @input="validatePassword" :type="passwordFieldType">
+                        <i class="fa-regular eye-icon" :class="{'fa-eye': passwordFieldType == 'password' , 'fa-eye-slash' : passwordFieldType == 'text'}" @click="togglePasswordVisibility"></i>
                         <label for="password" class="password-label">New password</label>
                     </div>
                     <div class="input-gp mb-3">
-                        <input required="" type="password" name="password-confirmation" id="" class="password-input" v-model="password_confirmation">
+                        <input required="" type="password" name="password-confirmation" id="" class="password-input" v-model="password_confirmation" :type="confirmPasswordFieldType">
+                        <i class="fa-regular eye-icon" :class="{'fa-eye': confirmPasswordFieldType == 'password' , 'fa-eye-slash' : confirmPasswordFieldType == 'text'}" @click="toggleConfirmPasswordVisibility"></i>
                         <label for="password-confirmation" class="password-label">Re-enter new password</label>
                     </div>
                     <div class="card p-3 validation-text">
@@ -67,8 +69,11 @@
                 passwordNumberValid : false,
                 passwordSpecialValid : false,
                 atLeast3 : false,
+                passwordFieldType : 'password',
+                confirmPasswordFieldType : 'password',
             },
             methods : {
+                //check validation from input
                 validatePassword() {
                     this.passwordLengthValid = this.password.length > 8 ? true : false;
                     this.passwordLowerValid = /[a-z]/.test(this.password)? true : false;
@@ -83,6 +88,7 @@
                     ].filter(value => value).length;
                     this.atLeast3 = trueCount >= 3 ? true : false;
                 },
+                //when click submit button 
                 changePassword() {
                     if(!(this.password == this.password_confirmation)) {
                         Swal.fire({
@@ -110,6 +116,12 @@
                             })
                         }
                     }
+                },
+                togglePasswordVisibility() {
+                    this.passwordFieldType = this.passwordFieldType == 'password'? 'text' : 'password';
+                },
+                toggleConfirmPasswordVisibility() {
+                    this.confirmPasswordFieldType = this.confirmPasswordFieldType == 'password'? 'text' : 'password';
                 }
             }
         })
