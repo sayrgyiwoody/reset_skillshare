@@ -100,6 +100,13 @@
                             })
                             this.password = '';
                             this.password_confirmation = '';
+                        }else {
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'info',
+                            text: 'Please complete our validation rules',
+                            showConfirmButton: true,
+                            })
                         }
                     }
                 }
