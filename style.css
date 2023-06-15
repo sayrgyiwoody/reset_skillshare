@@ -1,0 +1,59 @@
+*{
+    font-family: 'Nunito', sans-serif;
+}
+
+.fa-circle {
+    font-size: 6px;
+}
+
+.fa-check {
+    font-size: 18px;
+    color: #00a896;
+}
+
+.txt-success {
+    color: #00a896
+}
+
+.img-container img{
+    width: 60px;
+}
+
+.input-gp {
+    position: relative;
+}
+
+.password-input {
+    width: 100%;
+    border: 1.2px solid gray;
+    border-radius:5px;
+    padding : 1rem;
+    font-size: 1rem;
+    transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+}
+
+.password-label {
+    position: absolute;
+    left: 15px;
+    font-weight: 600;
+    pointer-events: none;
+    transform: translateY(1rem);
+    transition: 150ms cubic-bezier(0.4,0,0.2,1);
+}
+
+.password-input:focus{
+  outline: none;
+  border: 2px solid #3a0ca3;
+}
+
+.password-input:focus ~ label,input:valid ~ label  {
+    transform: translateY(-50%) scale(0.8);
+    background-color: white;
+    padding: 0.4em;
+    font-weight: 600;
+    color :#3a0ca3
+}
+
+.validation-text span {
+    margin: 3px 0;
+}

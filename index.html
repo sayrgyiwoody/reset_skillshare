@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+    <!-- font awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- bootstrap 5 cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <!-- google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,400;1,500;1,700;1,1000&display=swap" rel="stylesheet">
+    <!-- vue js cdn  -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- sweet alert cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row px-4" id="newPassword">
+            <div class="col-md-6 offset-md-3">
+                <div class=" my-4 img-container w-100 d-flex justify-content-center "><img src="./images/skillshare_logo.png" class="img-fluid" alt=""></div>
+                <h3 class="text-center">Change Your Password</h3>
+                <p class="text-center  mb-3">Enter a new password below to change your password.</p>
+                <form action="" @submit.prevent="changePassword">
+                    <div class="input-gp mb-3">
+                        <input required="" type="password" name="password" class="password-input" v-model="password" @input="validatePassword">
+                        <label for="password" class="password-label">New password</label>
+                    </div>
+                    <div class="input-gp mb-3">
+                        <input required="" type="password" name="password-confirmation" id="" class="password-input" v-model="password_confirmation">
+                        <label for="password-confirmation" class="password-label">Re-enter new password</label>
+                    </div>
+                    <div class="card p-3 validation-text">
+                        <span>Your password must contain:</span>
+                        <span class="d-flex align-items-center" :class="{'txt-success' : passwordLengthValid}"><i class="fa-solid me-2" :class="{'fa-check' : passwordLengthValid , 'fa-circle' : !passwordLengthValid}"></i>At least 8 characters</span>
+                        <span class="d-flex align-items-center" :class="{'txt-success' : atLeast3}"><i class="fa-solid me-2" :class="{'fa-check' : atLeast3 , 'fa-circle' : !atLeast3}"></i>At least 3 of the following: </span>
+                        <span class="ms-3 d-flex align-items-center" :class="{'txt-success' : passwordLowerValid}"><i class="fa-solid me-2" :class="{'fa-check' : passwordLowerValid , 'fa-circle' : !passwordLowerValid}"></i>Lower case letters</span>
+                        <span class="ms-3 d-flex align-items-center" :class="{'txt-success' : passwordUpperValid}"><i class="fa-solid me-2" :class="{'fa-check' : passwordUpperValid , 'fa-circle' : !passwordUpperValid}"></i>Upper case letters(A-Z)</span>
+                        <span class="ms-3 d-flex align-items-center" :class="{'txt-success' : passwordNumberValid}"><i class="fa-solid me-2" :class="{'fa-check' : passwordNumberValid , 'fa-circle' : !passwordNumberValid}"></i>Numbers (0-9)</span>
+                        <span class="ms-3 d-flex align-items-center" :class="{'txt-success' : passwordSpecialValid}"><i class="fa-solid me-2" :class="{'fa-check' : passwordSpecialValid , 'fa-circle' : !passwordSpecialValid}"></i>Special characters (e.g. !@#$%^&*)</span>
+                    </div>
+                    <button type="submit" class=" mt-4 btn w-100 py-3 fw-bold" style="background-color: #06d6a0;">Reset password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <!-- vue js codes here  -->
+    <script>
+        new Vue({
+            el : '#newPassword',
+            data : {
+                password : '',
+                password_confirmation : '',
+                passwordLengthValid : false,
+                passwordLowerValid : false,
+                passwordUpperValid : false,
+                passwordNumberValid : false,
+                passwordSpecialValid : false,
+                atLeast3 : false,
+            },
+            methods : {
+                validatePassword() {
+                    this.passwordLengthValid = this.password.length > 8 ? true : false;
+                    this.passwordLowerValid = /[a-z]/.test(this.password)? true : false;
+                    this.passwordUpperValid =/[A-Z]/.test(this.password)? true : false;
+                    this.passwordNumberValid = /[0-9]/.test(this.password)? true : false;
+                    this.passwordSpecialValid = /[!@#$%^&*]/.test(this.password)? true : false;
+                    const trueCount = [
+                        this.passwordLowerValid,
+                        this.passwordUpperValid,
+                        this.passwordNumberValid,
+                        this.passwordSpecialValid
+                    ].filter(value => value).length;
+                    this.atLeast3 = trueCount >= 3 ? true : false;
+                },
+                changePassword() {
+                    if(!(this.password == this.password_confirmation)) {
+                        Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        text: 'Passwords not match',
+                        showConfirmButton: true,
+                        })
+                    }else {
+                        if(this.passwordLengthValid && this.atLeast3) {
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            text: 'Password changed successfully',
+                            showConfirmButton: true,
+                            })
+                            this.password = '';
+                            this.password_confirmation = '';
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+
+
+</body>
+</html>
